@@ -6,7 +6,6 @@ class Emitter{
     Emitter(int x, int y, int density) {
         this.density = density;
         rays = new Ray[360 * density];
-        println(rays.length);
         pos.x = x;
         pos.y = y;
         createRays();
@@ -38,7 +37,7 @@ class Emitter{
     {
 
         for (int i = 0; i < rays.length; i++) {
-            float closestDist = Integer.MAX_VALUE;
+            float closestDist = 20000000;
             PVector closestHit = null;
             for (int j = 0; j < walls.length; j++) {
                 PVector hit = rays[i].test(walls[j]);
