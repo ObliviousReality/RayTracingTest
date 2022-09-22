@@ -1,7 +1,7 @@
 class Wall{
 
-    PVector a = new PVector();
-    PVector b = new PVector();
+    public PVector a = new PVector();
+    public PVector b = new PVector();
 
     Wall(int x1, int y1, int x2, int y2) {
         a.x = x1;
