@@ -55,8 +55,9 @@ class Emitter{
             if (closestHit != null)
             {
                 // stroke(0,0,255);
-                stroke(255,0,255);
-                strokeWeight(1);
+                float intensity = map(closestDist, 0, 800, 255, 0);
+                stroke(intensity,0,intensity);
+                strokeWeight(map(closestDist, 0, 800, 5, 0));
                 point(closestHit.x, closestHit.y);
                 // line(pos.x, pos.y, closestHit.x, closestHit.y);
             }
