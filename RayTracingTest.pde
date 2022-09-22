@@ -5,7 +5,7 @@ Ray r;
 Emitter e;
 
 boolean drawWalls = false;
-int delay;
+int delay = 0;
 
 void setup() {
     size(800,800);
@@ -14,7 +14,7 @@ void setup() {
     }
 
     // r = new Ray(200,200, radians(90));
-    e = new Emitter(100,700);
+    e = new Emitter(100,700, 2);
 }
 
 void draw()

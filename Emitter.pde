@@ -1,9 +1,12 @@
 class Emitter{
 
     PVector pos = new PVector();
-    Ray[] rays = new Ray[720];
-
-    Emitter(int x, int y) {
+    Ray[] rays;
+    int density;
+    Emitter(int x, int y, int density) {
+        this.density = density;
+        rays = new Ray[360 * density];
+        println(rays.length);
         pos.x = x;
         pos.y = y;
         createRays();
@@ -11,7 +14,7 @@ class Emitter{
 
     void createRays() {
         for (int i = 0; i < rays.length; i++) {
-            rays[i] = new Ray((int)pos.x,(int)pos.y, radians(map(i,0,720,0,360)));
+            rays[i] = new Ray((int)pos.x,(int)pos.y, radians(map(i,0,rays.length,0,360)));
         }
     }
 
