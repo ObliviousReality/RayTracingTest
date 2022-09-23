@@ -7,7 +7,7 @@ class Ray{
     int depth;
     int maxBrightness;
 
-    Ray(int x, int y, float angle, int maxBrightness, int depth) {
+    Ray(float x, float y, float angle, int maxBrightness, int depth) {
         this.angle = angle;
         this.depth = depth;
         this.maxBrightness = maxBrightness;

@@ -13,7 +13,14 @@ class Wall{
     void draw()
     {
         stroke(255);
-        strokeWeight(10);
+        strokeWeight(1);
         line(a.x, a.y,b.x, b.y);
+    }
+
+    void move(int x, int y){
+        a.x = x;
+        b.x = x;
+        a.y = y;
+        b.y = y;
     }
 }
