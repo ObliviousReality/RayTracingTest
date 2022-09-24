@@ -18,6 +18,7 @@ class Ray{
 
     void draw() {
         if (depth == 0) {
+            stroke(255);
             strokeWeight(1);
             translate(pos.x, pos.y);
             line(0,0,dir.x * 10, dir.y * 10);

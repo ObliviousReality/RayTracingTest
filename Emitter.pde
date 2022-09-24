@@ -6,10 +6,14 @@ class Emitter{
     Ray[][] rays;
     int density;
 
+    PVector[][] lights;
+
     boolean drawLines = false;
+    boolean drawColour = false;
     Emitter(int x, int y, int density) {
         this.density = density;
         rays = new Ray[90 * density][MAXDEPTH];
+        lights = new PVector[90 * density][MAXDEPTH];
         // rays = new Ray[1][MAXDEPTH];
         // rays = new Ray[8][MAXDEPTH];
         pos.x = x;
@@ -36,20 +40,49 @@ class Emitter{
 
     void draw()
     {
-        for (int i = 0; i < rays.length; i++) {
-            for (int depth = 0; depth < MAXDEPTH; depth++) {
+        for (int depth = MAXDEPTH - 1; depth >= 0; depth--) {
+            for (int i = 0; i < rays.length; i++) {
+                // println(i);
+                // println(depth);
                 if (rays[i][depth] != null) {
                     rays[i][depth].draw();
+                    if (lights[i][depth]!= null) {
+                        float intensity = map(lights[i][depth].z, 0, 1000, 255, 0);
+                        float weight = map(lights[i][depth].z, 0, width * 2, 5, 0);
+                        if (drawColour) {
+                            if (depth == 0) {
+                                stroke(intensity,0,0);
+                                strokeWeight(1);
+                            } else if (depth == 1) {
+                                stroke(0,intensity,0);
+                                strokeWeight(2);
+                            } else if (depth == 2) {
+                                stroke(0,0,intensity);
+                                strokeWeight(3);
+                            }
+                            else if (depth == 3) {
+                                stroke(0,intensity,intensity);
+                                strokeWeight(4);
+                            }
+                        } else{
+                            stroke(255 / (depth + 1));
+                        }
+                        strokeWeight(weight);
+                        point(lights[i][depth].x, lights[i][depth].y);
+                        strokeWeight(1);
+                        if (drawLines) {
+                            line(rays[i][depth].pos.x, rays[i][depth].pos.y, lights[i][depth].x, lights[i][depth].y);
+                        }
+                    }
                 }
             }
         }
     }
 
     void test(Wall[] walls)
-    {
-
-        for (int i = 0; i < rays.length; i++) {
-            for (int depth = 0; depth < MAXDEPTH; depth++) {
+        {
+        for (int depth = 0; depth < MAXDEPTH; depth++) {
+            for (int i = 0; i < rays.length; i++) {
                 if (rays[i][depth] != null) {
                     float closestDist = 20000000;
                     PVector closestHit = null;
@@ -59,7 +92,7 @@ class Emitter{
                         if (hit!= null) {
                             float dist = pos.dist(hit);
                             if (dist < closestDist)
-                            {
+                                {
                                 closestHit = hit;
                                 closestDist = dist;
                                 wallIndex = j;
@@ -69,33 +102,21 @@ class Emitter{
                     }
 
                     if (closestHit != null)
-                    {
+                        {
                         float intensity = map(closestDist, 0, 1000, 255, 0);
-                        if (depth == 0) {
-                            stroke(intensity,0,0);
-                            strokeWeight(1);
-                        } else if (depth == 1) {
-                            stroke(0,intensity,0);
-                            strokeWeight(2);
-                        } else if (depth == 2) {
-                            stroke(0,0,intensity);
-                            strokeWeight(3);
-                        }
-                        else if (depth == 3) {
-                            stroke(0,intensity,intensity);
-                            strokeWeight(4);
-                        }
-                        stroke(intensity);
-                        if (drawLines) {
-                            line(rays[i][depth].pos.x, rays[i][depth].pos.y, closestHit.x, closestHit.y);
-                        }
-                        strokeWeight(map(closestDist, 0, width * 2, 5, 0));
-                        point(closestHit.x, closestHit.y);
+
+                        stroke(255 / (depth + 1));
+                        // stroke(intensity);
+
+                        float weight = map(closestDist, 0, width * 2, 5, 0);
+                        // strokeWeight();
+                        lights[i][depth] = new PVector(closestHit.x, closestHit.y, closestDist);
+                        // point(closestHit.x, closestHit.y);
                         Wall w = walls[wallIndex];
                         float lineAngle = atan2(w.b.y - w.a.y, w.b.x - w.a.x);
                         float rayAngle = rays[i][depth].angle;
                         while(lineAngle < 0)
-                        {
+                            {
                             lineAngle += TWO_PI;
                         }
                         while(rayAngle > TWO_PI) {
@@ -122,6 +143,7 @@ class Emitter{
                     else{
                         for (int t = depth + 1; t < MAXDEPTH; t++) {
                             rays[i][t] = null;
+                            lights[i][t] = null;
                         }
                     }
                 }
@@ -132,5 +154,9 @@ class Emitter{
 
     void drawLines() {
         this.drawLines = !this.drawLines;
+    }
+
+    void colour() {
+        drawColour = !drawColour;
     }
 }
