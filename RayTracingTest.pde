@@ -1,4 +1,4 @@
-int NumWalls = 10;
+int NumWalls = 20;
 
 Wall[] walls = new Wall[NumWalls + 4];
 Ray r;
@@ -19,7 +19,7 @@ void setup() {
     walls[NumWalls + 1] = new Wall(0,0, 0, height);
     walls[NumWalls + 2] = new Wall(0, height, width, height);
     walls[NumWalls + 3] = new Wall(width, 0, width, height);
-    e = new Emitter(100,700, 1);
+    e = new Emitter(100,700, 2);
 }
 
 void draw()
@@ -28,14 +28,14 @@ void draw()
     if (keyPressed) {
         if (key == 'b' && delay == 0) {
             drawWalls = !drawWalls;
-            delay = 60;
+            delay = 30;
         }
         if (key == 'p') {
             exit();
         }
         if (key == 'v' && delay == 0) {
             e.drawLines();
-            delay = 60;
+            delay = 30;
         }
     }
     if (drawWalls) {
@@ -43,6 +43,7 @@ void draw()
             walls[i].draw();
         }
     }
+
     e.move(mouseX, mouseY);
     stroke(255);
     circle(mouseX, mouseY, 5);

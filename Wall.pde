@@ -16,11 +16,4 @@ class Wall{
         strokeWeight(1);
         line(a.x, a.y,b.x, b.y);
     }
-
-    void move(int x, int y){
-        a.x = x;
-        b.x = x;
-        a.y = y;
-        b.y = y;
-    }
 }
